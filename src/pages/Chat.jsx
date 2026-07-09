@@ -6,29 +6,50 @@ import FeatureCards from "../components/home/FeatureCards";
 
 const Chat = () => {
   const { activeChat, sendMessage, loading, stopGenerating } = useChat();
+
   const [input, setInput] = useState("");
+
   const bottomRef = useRef(null);
+
   const inputRef = useRef(null);
 
   const handleSend = async () => {
     if (!input.trim()) return;
 
-    await sendMessage(input);
+    const message = input;
+
     setInput("");
+
+    await sendMessage(message);
+
     inputRef.current?.focus();
   };
 
+  // AUTO SCROLL
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => {
+      bottomRef.current?.scrollIntoView({
+        behavior: "smooth",
+
+        block: "end",
+      });
+    }, 100);
   }, [activeChat?.messages, loading]);
 
-  // 🔥 FEATURE ACTION HANDLER
+  // REACT FEATURE CARD ACTIONS
   const handleFeatureAction = (action) => {
     const prompts = {
-      ask: "Answer my question clearly and simply",
-      code: "Help me write or fix code",
-      explain: "Explain a topic in simple language",
-      ideas: "Give me unique project ideas",
+      "react-hooks":
+        "Explain React hooks like useState and useEffect with simple examples",
+
+      "react-bug":
+        "Help me debug this React error and explain the solution step by step",
+
+      "react-projects":
+        "Give me unique React project ideas for a frontend developer portfolio",
+
+      "react-interview":
+        "Give me important React interview questions with detailed answers",
     };
 
     sendMessage(prompts[action] || "Hello");
@@ -72,10 +93,11 @@ const Chat = () => {
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
+
               handleSend();
             }
           }}
-          placeholder="Ask something..."
+          placeholder="Ask React question..."
           className="flex-1 px-3 py-2 rounded-md border dark:bg-gray-800 dark:border-gray-700 focus:outline-none"
         />
 

@@ -2,28 +2,31 @@ import { MessageSquare, Zap, Sparkles, Settings } from "lucide-react";
 
 const features = [
   {
-    title: "Ask Anything",
-    desc: "Get answers to any question",
+    title: "Explain React Hooks",
+    desc: "Learn useState, useEffect and custom hooks",
     icon: MessageSquare,
-    action: "ask",
+    action: "react-hooks",
   },
+
   {
-    title: "Code Help",
-    desc: "Fix or generate code instantly",
+    title: "Fix React Bug",
+    desc: "Debug your React code quickly",
     icon: Zap,
-    action: "code",
+    action: "react-bug",
   },
+
   {
-    title: "Explain Topic",
-    desc: "Learn anything in simple words",
+    title: "React Project Ideas",
+    desc: "Get modern React project ideas",
     icon: Sparkles,
-    action: "explain",
+    action: "react-projects",
   },
+
   {
-    title: "Project Ideas",
-    desc: "Get unique project suggestions",
+    title: "React Interview Prep",
+    desc: "Practice React interview questions",
     icon: Settings,
-    action: "ideas",
+    action: "react-interview",
   },
 ];
 
@@ -40,8 +43,8 @@ const FeatureCards = ({ onAction }) => {
                 key={index}
                 onClick={() => onAction(item.action)}
                 className="group cursor-pointer p-5 rounded-xl border dark:border-gray-700
-                bg-gray-50 dark:bg-gray-900
-                hover:scale-[1.04] hover:shadow-xl transition-all duration-300"
+                  bg-gray-50 dark:bg-gray-900
+                  hover:scale-[1.04] hover:shadow-xl transition-all duration-300"
               >
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-md bg-white dark:bg-gray-800 group-hover:bg-blue-600 transition">
@@ -52,6 +55,7 @@ const FeatureCards = ({ onAction }) => {
                     <h3 className="font-semibold text-gray-800 dark:text-white">
                       {item.title}
                     </h3>
+
                     <p className="text-sm text-gray-500 dark:text-gray-400">
                       {item.desc}
                     </p>
