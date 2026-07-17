@@ -2,24 +2,25 @@ import { Outlet } from "react-router";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import MobileSidebar from "./MobileSidebar";
-import { useSidebar } from "../../hooks/useSidebar";
 
 const MainLayout = () => {
-  const { isOpen } = useSidebar();
-
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+    <div className="flex h-screen overflow-hidden bg-[#f7f7f8] text-gray-900 dark:bg-[#0B0D10] dark:text-white">
       {/* Desktop Sidebar */}
-      <div className="hidden md:block h-full">
+
+      <div className="hidden h-full md:block">
         <Sidebar />
       </div>
 
       {/* Mobile Sidebar Drawer */}
+
       <MobileSidebar />
 
-      {/* MAIN AREA */}
-      <div className="flex flex-col flex-1 overflow-hidden">
+      {/* Main Area */}
+
+      <div className="flex flex-1 flex-col overflow-hidden">
         <Header />
+
         <main className="flex-1 overflow-hidden">
           <Outlet />
         </main>

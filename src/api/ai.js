@@ -39,7 +39,7 @@ export const streamMessageToAI = async (messages, onChunk, signal) => {
     buffer += decoder.decode(value, { stream: true });
 
     const lines = buffer.split("\n");
-    buffer = lines.pop(); 
+    buffer = lines.pop();
 
     for (const line of lines) {
       if (!line.startsWith("data:")) continue;

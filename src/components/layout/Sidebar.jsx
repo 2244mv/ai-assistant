@@ -1,94 +1,108 @@
 import { useState } from "react";
 import { Plus, MessageSquare, Settings, Trash2, Search } from "lucide-react";
 
-import { useSidebar } from "../../hooks/useSidebar";
+import { NavLink } from "react-router";
+
 import { useChat } from "../../hooks/useChat";
+import { ROUTES } from "../../routes/router";
 
 const Sidebar = () => {
-  const { isOpen } = useSidebar();
-
   const { chats, setActiveChatId, activeChatId, deleteChat, createChat } =
     useChat();
 
   const [query, setQuery] = useState("");
 
-  const filtered = chats.filter((c) =>
-    c.title.toLowerCase().includes(query.toLowerCase()),
+  const filtered = chats.filter((chat) =>
+    chat.title.toLowerCase().includes(query.toLowerCase()),
   );
 
   return (
-    <aside
-      className={`h-screen flex flex-col border-r dark:border-gray-700 bg-white dark:bg-gray-800 ${
-        isOpen ? "w-64" : "w-20"
-      }`}
-    >
-      <div className="p-4 font-bold border-b dark:border-gray-700">AI Chat</div>
+    <aside className="flex h-screen w-64 flex-col border-r border-gray-200 bg-white text-gray-900 dark:border-[#252B35] dark:bg-[#0B0D10] dark:text-white">
+      {/* Header */}
 
-      {isOpen && (
-        <div className="p-3">
-          <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-md">
-            <Search size={16} />
-
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search..."
-              className="bg-transparent outline-none text-sm w-full"
-            />
-          </div>
-        </div>
-      )}
-
-      <div className="p-2">
-        <div
-          onClick={() => createChat("")}
-          className="flex items-center gap-2 px-3 py-2 bg-blue-600 text-white rounded-md cursor-pointer"
-        >
-          <Plus size={18} />
-
-          {isOpen && "New Chat"}
-        </div>
+      <div className="flex h-14 items-center border-b border-gray-200 px-4 font-semibold dark:border-[#252B35]">
+        AI Chat
       </div>
 
-      <div className="flex-1 overflow-y-auto px-2 space-y-1">
+      {/* New Chat */}
+
+      <div className="p-3">
+        <button
+          onClick={() => createChat("")}
+          className="flex w-full items-center gap-2 rounded-xl bg-[#8B5CF6] px-3 py-2 font-medium text-white transition hover:bg-[#7C3AED] hover:shadow-[0_0_25px_rgba(139,92,246,0.45)]"
+        >
+          <Plus size={18} />
+          New Chat
+        </button>
+      </div>
+
+      {/* History */}
+
+      <div className="flex-1 space-y-1 overflow-y-auto px-2">
         {filtered.map((chat) => (
           <div
             key={chat.id}
             onClick={() => setActiveChatId(chat.id)}
-            className={`group flex justify-between items-center px-3 py-2 rounded-md cursor-pointer ${
+            className={`group flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 transition ${
               chat.id === activeChatId
-                ? "bg-blue-100 dark:bg-gray-700"
-                : "hover:bg-gray-100 dark:hover:bg-gray-700"
-            }`}
+                ? "bg-purple-100 text-purple-700 dark:bg-[#211538] dark:text-purple-300"
+                : "hover:bg-gray-100 dark:hover:bg-[#11151B]"
+            } `}
           >
-            <div className="flex items-center gap-2">
+            <div className="flex min-w-0 items-center gap-2">
               <MessageSquare size={16} />
 
-              {isOpen && <span className="text-sm truncate">{chat.title}</span>}
+              <span className="truncate text-sm">
+                {chat.title || "New Chat"}
+              </span>
             </div>
 
-            {isOpen && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
 
-                  deleteChat(chat.id);
-                }}
-                className="text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100"
-              >
-                <Trash2 size={14} />
-              </button>
-            )}
+                deleteChat(chat.id);
+              }}
+              className="text-red-500 opacity-0 transition group-hover:opacity-100 hover:text-red-400"
+            >
+              <Trash2 size={14} />
+            </button>
           </div>
         ))}
       </div>
 
-      <div className="p-2 border-t dark:border-gray-700">
-        <div className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-pointer">
+      {/* Search */}
+
+      <div className="border-t border-gray-200 p-3 dark:border-[#252B35]">
+        <div className="flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-100 px-3 py-2 dark:border-[#35224F] dark:bg-[#11151B]">
+          <Search size={16} />
+
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search..."
+            className="w-full bg-transparent text-sm outline-none"
+          />
+        </div>
+      </div>
+
+      {/* Settings */}
+
+      <div className="border-t border-gray-200 p-2 dark:border-[#252B35]">
+        <NavLink
+          to={ROUTES.SETTINGS}
+          className={({ isActive }) =>
+            `flex items-center gap-2 rounded-xl px-3 py-2 transition ${
+              isActive
+                ? "bg-purple-100 text-purple-700 dark:bg-[#211538] dark:text-purple-300"
+                : "hover:bg-gray-100 dark:hover:bg-[#11151B]"
+            } `
+          }
+        >
           <Settings size={18} />
 
-          {isOpen && "Settings"}
-        </div>
+          <span>Settings</span>
+        </NavLink>
       </div>
     </aside>
   );

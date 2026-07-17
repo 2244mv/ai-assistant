@@ -1,9 +1,18 @@
 const NotFound = () => {
   return (
-    <div className="h-screen flex items-center justify-center text-center">
+    <div className="flex h-screen items-center justify-center bg-[#f7f7f8] text-center text-gray-900 dark:bg-[#0B0D10] dark:text-white">
       <div>
-        <h1 className="text-4xl font-bold">404</h1>
-        <p className="text-gray-500 mt-2">Page not found</p>
+        <h1 className="text-6xl font-bold text-[#8B5CF6] drop-shadow-[0_0_20px_rgba(139,92,246,0.5)]">
+          404
+        </h1>
+
+        <p className="mt-3 text-lg text-gray-500 dark:text-gray-400">
+          Page not found
+        </p>
+
+        <p className="mt-2 text-sm text-gray-400 dark:text-gray-500">
+          The page you are looking for does not exist.
+        </p>
       </div>
     </div>
   );

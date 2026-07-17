@@ -32,9 +32,9 @@ const features = [
 
 const FeatureCards = ({ onAction }) => {
   return (
-    <div className="flex items-center justify-center h-full p-6">
-      <div className="w-full max-w-2xl bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-2xl shadow-lg p-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="flex h-full items-center justify-center p-6">
+      <div className="w-full max-w-2xl rounded-2xl border border-gray-200 bg-white p-6 shadow-lg dark:border-[#252B35] dark:bg-[#11151B]">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {features.map((item, index) => {
             const Icon = item.icon;
 
@@ -42,17 +42,20 @@ const FeatureCards = ({ onAction }) => {
               <div
                 key={index}
                 onClick={() => onAction(item.action)}
-                className="group cursor-pointer p-5 rounded-xl border dark:border-gray-700
-                  bg-gray-50 dark:bg-gray-900
-                  hover:scale-[1.04] hover:shadow-xl transition-all duration-300"
+                className="group cursor-pointer rounded-xl border border-gray-200 bg-gray-50 p-5 transition-all duration-300 hover:scale-[1.03] hover:border-purple-400 hover:bg-purple-50 hover:shadow-[0_0_25px_rgba(139,92,246,0.25)] dark:border-[#252B35] dark:bg-[#0B0D10] dark:hover:border-purple-500 dark:hover:bg-[#211538]"
               >
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-md bg-white dark:bg-gray-800 group-hover:bg-blue-600 transition">
-                    <Icon className="text-gray-700 dark:text-white group-hover:text-white" />
+                  {/* Icon */}
+
+                  <div className="rounded-lg bg-gray-100 p-2 transition group-hover:bg-[#8B5CF6] dark:bg-[#1A2029]">
+                    <Icon
+                      className="text-gray-700 transition group-hover:text-white dark:text-gray-200"
+                      size={20}
+                    />
                   </div>
 
                   <div>
-                    <h3 className="font-semibold text-gray-800 dark:text-white">
+                    <h3 className="font-semibold text-gray-900 dark:text-white">
                       {item.title}
                     </h3>
 
