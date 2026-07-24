@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Plus, MessageSquare, Settings, Trash2, Search } from "lucide-react";
+import {
+  Plus,
+  MessageSquare,
+  Trash2,
+  Search,
+  Home,
+  Sparkles,
+  Settings,
+} from "lucide-react";
 
 import { NavLink } from "react-router";
 
@@ -15,6 +23,13 @@ const Sidebar = () => {
   const filtered = chats.filter((chat) =>
     chat.title.toLowerCase().includes(query.toLowerCase()),
   );
+
+  const navClass = ({ isActive }) =>
+    `flex items-center gap-2 rounded-xl px-3 py-2 font-medium transition ${
+      isActive
+        ? "bg-[#8B5CF6] text-white shadow-[0_0_25px_rgba(139,92,246,0.45)]"
+        : "hover:bg-[#8B5CF6] hover:text-white hover:shadow-[0_0_25px_rgba(139,92,246,0.45)]"
+    }`;
 
   return (
     <aside className="flex h-screen w-64 flex-col border-r border-gray-200 bg-white text-gray-900 dark:border-[#252B35] dark:bg-[#0B0D10] dark:text-white">
@@ -45,9 +60,9 @@ const Sidebar = () => {
             onClick={() => setActiveChatId(chat.id)}
             className={`group flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 transition ${
               chat.id === activeChatId
-                ? "bg-purple-100 text-purple-700 dark:bg-[#211538] dark:text-purple-300"
+                ? "bg-[#211538] text-purple-300"
                 : "hover:bg-gray-100 dark:hover:bg-[#11151B]"
-            } `}
+            }`}
           >
             <div className="flex min-w-0 items-center gap-2">
               <MessageSquare size={16} />
@@ -86,22 +101,22 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* Settings */}
+      {/* Navigation */}
 
-      <div className="border-t border-gray-200 p-2 dark:border-[#252B35]">
-        <NavLink
-          to={ROUTES.SETTINGS}
-          className={({ isActive }) =>
-            `flex items-center gap-2 rounded-xl px-3 py-2 transition ${
-              isActive
-                ? "bg-purple-100 text-purple-700 dark:bg-[#211538] dark:text-purple-300"
-                : "hover:bg-gray-100 dark:hover:bg-[#11151B]"
-            } `
-          }
-        >
+      <div className="space-y-2 border-t border-gray-200 p-3 dark:border-[#252B35]">
+        <NavLink to={ROUTES.HOME} className={navClass}>
+          <Home size={18} />
+          Home
+        </NavLink>
+
+        <NavLink to={ROUTES.FEATURES} className={navClass}>
+          <Sparkles size={18} />
+          Features
+        </NavLink>
+
+        <NavLink to={ROUTES.SETTINGS} className={navClass}>
           <Settings size={18} />
-
-          <span>Settings</span>
+          Settings
         </NavLink>
       </div>
     </aside>

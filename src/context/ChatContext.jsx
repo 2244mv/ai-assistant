@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import { createContext, useRef, useState } from "react";
+
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { streamMessageToAI } from "../api/ai";
 
@@ -6,14 +7,17 @@ export const ChatContext = createContext();
 
 export const ChatProvider = ({ children }) => {
   const [chats, setChats] = useLocalStorage("chats", []);
+
   const [activeChatId, setActiveChatId] = useState(null);
+
   const [loading, setLoading] = useState(false);
 
-  const activeChat = chats.find((c) => c.id === activeChatId);
+  const controllerRef = useRef(null);
 
-  const controllerRef = { current: null };
+  const activeChat = chats.find((chat) => chat.id === activeChatId);
 
   // CREATE CHAT
+
   const createChat = (firstMessage = "") => {
     const newChat = {
       id: Date.now().toString(),
@@ -35,6 +39,7 @@ export const ChatProvider = ({ children }) => {
   };
 
   // SEND MESSAGE
+
   const sendMessage = async (text) => {
     if (!text.trim()) return;
 
@@ -50,17 +55,15 @@ export const ChatProvider = ({ children }) => {
       content: text,
     };
 
-    // SAVE USER MESSAGE + UPDATE TITLE
     setChats((prev) =>
       prev.map((c) =>
         c.id === chat.id
           ? {
               ...c,
 
-              // Update New Chat title
               title: c.title === "New Chat" ? text.slice(0, 20) : c.title,
 
-              messages: [...(c.messages || []), userMessage],
+              messages: [...c.messages, userMessage],
 
               updatedAt: Date.now(),
             }
@@ -71,7 +74,6 @@ export const ChatProvider = ({ children }) => {
     const safeMessages = [
       ...(chat.messages || []).map((m) => ({
         role: m.role,
-
         content: m.content,
       })),
 
@@ -130,21 +132,29 @@ export const ChatProvider = ({ children }) => {
   };
 
   // STOP GENERATION
+
   const stopGenerating = () => {
-    if (controllerRef.current) {
-      controllerRef.current.abort();
-    }
+    controllerRef.current?.abort();
 
     setLoading(false);
   };
 
-  // DELETE CHAT
+  // DELETE SINGLE CHAT
+
   const deleteChat = (id) => {
-    setChats((prev) => prev.filter((c) => c.id !== id));
+    setChats((prev) => prev.filter((chat) => chat.id !== id));
 
     if (activeChatId === id) {
       setActiveChatId(null);
     }
+  };
+
+  // CLEAR ALL CHATS
+
+  const clearAllChats = () => {
+    setChats([]);
+
+    setActiveChatId(null);
   };
 
   return (
@@ -167,6 +177,8 @@ export const ChatProvider = ({ children }) => {
         deleteChat,
 
         createChat,
+
+        clearAllChats,
       }}
     >
       {children}
