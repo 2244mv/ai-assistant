@@ -97,7 +97,7 @@ const Chat = () => {
               handleSend();
             }
           }}
-          placeholder="Ask React question..."
+          placeholder="Ask Anything..."
           className="flex-1 rounded-xl border border-gray-200 bg-gray-100 px-4 py-3 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-[#8B5CF6] focus:outline-none dark:border-[#252B35] dark:bg-[#11151B] dark:text-white"
         />
 
